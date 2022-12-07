@@ -1,0 +1,68 @@
+Coupon defintion file information required
+
+1. Logo image location on HDD
+2. Number of areas
+3. Size of bet box (WxH in pixels)
+4. Position of bet box in relation to area (0,0) point in pixels
+
+Deskew image
+
+http://felix.abecassis.me/2011/09/opencv-detect-skew-angle/
+http://felix.abecassis.me/2011/10/opencv-rotation-deskewing/
+
+
+http://opencv-code.com/tutorials/automatic-perspective-correction-for-quadrilateral-objects/
+
+Issue (1) We need to handle perspective distorion, be applying persepctive correction for quadrilateral obejects (okay)
+Issue (2) We need to implement a deskew function (okay)
+
+Issue (3) Betboxes were user mark is connected to the border are not being detected
+Issue (4) Due to focus issue some of the area boxes are not being detected
+
+Todo
+Assign detected marks into a row/column order
+Remove duplicate detections
+
+OPENCV colors layout BGR
+
+http://blog.ayoungprogrammer.com/2013/03/tutorial-creating-multiple-choice.html
+
+Discussion List
+1. Discuss how the mark positions will be transferred to APP
+2. Discuss how we will get the best (focus oriented) image (correct focus requires time in LVT)
+3. Add a mechanism to drop identical images
+4. Problem with marks touching bet box
+5. Folded tickets!!!
+6. Wrinkled tickets!!!
+
+########################################
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+struct range_finder {
+        range_finder(int min, int max)
+        : m_min(min), m_max(max)
+        {}
+
+        bool operator()(int v) {
+                return (v <= m_max && v >= m_min) ? true : false;
+        }
+
+        int m_min, m_max;
+};
+
+
+int main() {
+        std::vector<int> v = { 62, 55, 58, 59, 75, 103, 85 };
+
+        auto i = std::find_if(std::begin(v), std::end(v), range_finder(65, 80));
+
+        if(std::end(v) != i)
+                std::cout << *i << std::endl;
+
+        return 0;
+}
+#########################################
+
+
